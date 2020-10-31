@@ -1,0 +1,11 @@
+To start website on localhost:8000,
+navigate to the Python-Blog dir with CMD
+run command 'python manage.py runserver'.
+
+To access admin control of site,
+use http://127.0.0.1:8000/admin/
+enter admin credentials
+omgbleepbleep pbleepblbleepkfctbleep!.
+
+To add superuser (aka admin),
+run command 'python manage.py createsuperuser'.
