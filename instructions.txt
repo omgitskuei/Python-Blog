@@ -9,3 +9,142 @@ omgbleepbleep pbleepblbleepkfctbleep!.
 
 To add superuser (aka admin),
 run command 'python manage.py createsuperuser'.
+
+To create local git and link it to remote repo on github,
+cd your way to the Python-Blog/ dir
+containing the ".git" file,
+git init
+git config --global user.name omgitskuei
+git config --global user.email kueifengtungchris@gmail.com
+git status
+git add --all .
+// create new github repo
+git remote add origin https://github.com/omgitskuei/Python-Blog.git
+git push -u origin master
+
+To commit new changes to git,
+cd to the Python-Blog .git,
+git status
+git add --all .
+git status
+git commit -m "Updated xyz file with new methods"
+git published
+
+To pull new updates from github
+cd to the .git
+git pull
+eg. online on production on host pythonanywhere
+cd ~/omgitskuei.pythonanywhere.com
+git pull
+Click 'Web' tab in pythonanywhere and Click 'Reload'
+eg. local on localhost
+cd D:\Coding\Repositories\Python-Blog
+git pull
+python manage.py runserver
+
+To open Django Shell on localhost,
+cd D:\Coding\Repositories\Python-Blog
+python manage.py shell
+It'll return:
+'''
+Python 3.8.3 (tags/v3.8.3:6f8c832, May 13 2020, 22:20:19) [MSC v.1925 32 bit (Intel)]
+Type 'copyright', 'credits' or 'license' for more information
+IPython 7.15.0 -- An enhanced Interactive Python. Type '?' for help.
+In [1]:
+'''
+
+To Operate Django Shell;
+# Display all of our posts
+  In [X]:
+    >>> from blog.models import Post
+    >>> Post.objects.all()
+  Out[X]:
+    <QuerySet [
+      <Post: Testing Django 123>,
+      <Post: Testing Django 123wPDate>
+    ]>
+# Display all of our users
+  In [X]:
+    >>> from django.contrib.auth.models import User
+    >>> User.objects.all()
+  Out[X]:
+    <QuerySet [
+      <User: omgitskuei>
+    ]>
+# Creating a new Post objects
+  In [X]:
+    >>> from django.contrib.auth.models import User
+    >>> me = User.objects.get(username='ola')
+    >>> from blog.models import Post
+    >>> Post.objects.create(author=me, title='Sample title', text='Test')
+  Out[X]:
+    <Post: Sample title>
+  In [X]:
+    >>> Post.objects.all()
+  Out[X]:
+    <QuerySet [
+      <Post: Testing Django 123>,
+      <Post: Testing Django 123wPDate>,
+      <Post: Sample title>
+    ]>
+# Filter objects to Display some Posts
+  In [X]:
+    Post.objects.filter(author=me)
+  Out[X]:
+    <QuerySet [
+      <Post: Testing Django 123>,
+      <Post: Testing Django 123wPDate>,
+      <Post: Sample title>
+    ]>
+  In [X]:
+    Post.objects.filter(title__contains='title')
+  Out[X]:
+    <QuerySet [
+      <Post: Sample title>
+    ]>
+  In [X]:
+    from django.utils import timezone
+    Post.objects.filter(published_date__lte=timezone.now())
+  Out[X]:
+    <QuerySet [
+      <Post: Testing Django 123wPDate>
+    ]>
+# Publish a new Post
+  In [X]:
+    post = Post.objects.get(title="Sample title")
+  Out[X]:
+    post.publish()
+  In [X]:
+    Post.objects.filter(published_date__lte=timezone.now())
+  Out[X]:
+    <QuerySet [
+      <Post: Testing Django 123wPDate>,
+      <Post: Sample title>
+    ]>
+# QuerySets also allow you to order the list of objects
+  In [X]:
+    Post.objects.order_by('created_date')
+  Out[X]:
+    <QuerySet [
+      <Post: Sample title>, <Post: Post number 2>,
+      <Post: My 3rd post!>,
+      <Post: 4th title of post>
+    ]>
+  # Reverse the order with "-"
+  In [X]:
+    Post.objects.order_by('-created_date')
+  Out[X]:
+    <QuerySet [
+      <Post: Sample title>, <Post: Post number 2>,
+      <Post: My 3rd post!>,
+      <Post: 4th title of post>
+    ]>
+  # Some methods on Post.objects like .order() above return a QuerySet.
+  # you can combine multiple methods by chaining them together
+  In [X]:
+    Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+  Out[X]:
+    <QuerySet [
+      <Post: Testing Django 123wPDate>,
+      <Post: Sample title>
+    ]>
