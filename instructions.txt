@@ -28,7 +28,7 @@ git status
 git add --all .
 git status
 git commit -m "Updated xyz file with new methods"
-git published
+git push
 
 To pull new updates from github
 cd to the .git

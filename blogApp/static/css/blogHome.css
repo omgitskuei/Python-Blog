@@ -1,12 +1,3 @@
-h1 a, h2 a {
-    color: #FF8833;
-    font-family: 'Arial';
-}
-
-body {
-    padding-left: 15px;
-}
-
 .page-header {
     background-color: #C25100;
     margin-top: 0;
@@ -24,7 +15,7 @@ body {
 }
 
 h1, h2, h3, h4 {
-    font-family: 'Arial', bold;
+    font-family: 'Lobster', cursive;
 }
 
 .date {
