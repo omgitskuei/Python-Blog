@@ -1,21 +1,38 @@
 <html>
 
-<head>
-  <title>Django Girls blog</title>
-</head>
+  <head>
+    <title>OmgitsKuei Django blog</title>
+    <!-- Import Bootstrap -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+  </head>
 
-<body>
-  <div>
-    <h1><a href="/">Django Girls Blog</a></h1>
-  </div>
+  <body>
+    <div>
+      <h1>
+        <a href="/">OmgitsKuei Django Blog</a>
+      </h1>
+      <p>
+        This is a blog created with Django 3, SqlLite3, Python 3.8, Bootstrap, Atom, Chrome, PythonAnywhere hosting services, and windows CMD.
+        The goal of this blog is to practice and show-case web development with python back-end framework Django.
+        omgitskuei is a full-stack developer working in Taipei, Taiwan, with 2 years experience developing fintech, financial systems, and web-development
+        in Java, Spring Frameworks, MSSQL, Js, Prototype.Js, jQuery, HTML, CSS, and React.
+        omgitskuei is currently practicing Python, Django, and Bootstrap.
+        omgitskuei is planning to study vue, more react, angular, machine learning, numpy, pandas, scikit, matplotlib, scipy, and deep learning. 
+      </p>
+    </div>
+  
 
-  {% for post in posts %}
-  <div>
-    <p>published: {{ post.published_date }}</p>
-    <h2><a href="">{{ post.title }}</a></h2>
-    <p>{{ post.text|linebreaksbr }}</p>
-  </div>
-  {% endfor %}
-</body>
+    {% for post in posts %}
+    <div>
+      <p>published: {{ post.published_date }}</p>
+      <h2><a href="">{{ post.title }}</a></h2>
+      <p>{{ post.text|linebreaksbr }}</p>
+    </div>
+  
+    <hr>
+    {% endfor %}
+
+  </body>
 
 </html>
