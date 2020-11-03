@@ -1,15 +1,24 @@
 {% load static %}
 <html>
-    <head>
-        <title>Django Girls blog</title>
-        <!-- Import Bootstrap -->
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <!-- Import Python-Blog/blogApp/static/css/blogHome.css -->
-        <link rel="stylesheet" href="{% static 'css/blogHome.css' %}">
-    </head>
-    <body>
-        <div class="page-header">
+  <head>
+    <title>
+      Django Girls blog
+    </title>
+    <!-- Import Bootstrap -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <!-- Import Python-Blog/blogApp/static/css/blogHome.css -->
+    <link rel="stylesheet" href="{% static 'css/blogHome.css' %}">
+  </head>
+  <body>
+    <div class="page-header">
+      <!-- Only show New btn for admin users -->
+      {% if user.is_authenticated %}
+      <a href="{% url 'post_new' %}" class="top-menu">
+        <span class="glyphicon glyphicon-plus">
+        </span>
+      </a>
+      {% endif %}
       <h1>
         <a href="/">OmgitsKuei Django Blog</a>
       </h1>
@@ -23,13 +32,13 @@
       </p>
     </div>
 
-        <div class="content container">
-            <div class="row">
-                <div class="col-md-8">
-                    {% block content %}
-                    {% endblock %}
-                </div>
-            </div>
+    <div class="content container">
+      <div class="row">
+        <div class="col-md-8">
+          {% block content %}
+          {% endblock %}
         </div>
-    </body>
+      </div>
+    </div>
+  </body>
 </html>

@@ -31,16 +31,27 @@ git commit -m "Updated xyz file with new methods"
 git push
 
 To pull new updates from github
+# generally
 cd to the .git
 git pull
 eg. online on production on host pythonanywhere
+# pythonanywhere $ bash
 cd ~/omgitskuei.pythonanywhere.com
 git pull
 Click 'Web' tab in pythonanywhere and Click 'Reload'
+# local
 eg. local on localhost
 cd D:\Coding\Repositories\Python-Blog
 git pull
 python manage.py runserver
+
+To update static files (eg. css), need 1 extra line
+cd to the project
+python manage.py collectstatic
+git add --all .
+git status
+git commit -m "Update stylesheet"
+git push
 
 To open Django Shell on localhost,
 cd D:\Coding\Repositories\Python-Blog

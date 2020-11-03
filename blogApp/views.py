@@ -7,6 +7,9 @@ from django.utils import timezone
 # The dot before models means current directory or current application.
 # Both views.py and models.py are in the same directory.
 from .models import Post
+from django.shortcuts import render, get_object_or_404
+from .forms import PostForm
+from django.shortcuts import redirect
 
 # Create your views here.
 
@@ -28,3 +31,51 @@ def post_list(request):
     allPostsWithPDate = Post.objects.filter(
         published_date__lte=timezone.now()).order_by('published_date')
     return render(request, 'blog/post_list.html', {'posts': allPostsWithPDate})
+
+def post_detail(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    return render(request, 'blog/post_detail.html', {'post': post})
+
+'''
+/post/new/
+'''
+def post_new(request):
+    # In post_edit.html, our <form> definition had the variable method="POST"?
+    # All the fields from the form are now in request.POST
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            # there was no author field in the PostForm
+            # but author field is required
+            # commit=False means that we don't want to save the Post model yet
+            post = form.save(commit=False)
+            post.author = request.user
+            post.published_date = timezone.now()
+            post.save()
+            # go to the post_detail page for our newly created blog post
+            return redirect('post_detail', pk=post.pk)
+    # when we access the page for the first time, we want a blank form;
+    else:
+        form = PostForm()
+    return render(request, 'blog/post_edit.html', {'form': form})
+
+'''
+post/<int:pk>/edit/
+'''
+# we pass an extra pk parameter from urls
+def post_edit(request, pk):
+    # get the Post model we want to edit
+    post = get_object_or_404(Post, pk=pk)
+    # if submitting new form
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.published_date = timezone.now()
+            post.save()
+            return redirect('post_detail', pk=post.pk)
+    # if editing a post
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'blog/post_edit.html', {'form': form})
