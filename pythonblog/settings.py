@@ -106,12 +106,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Etc/GMT+8'
 
 USE_I18N = True
 
 USE_L10N = True
-
+# enables timezone support, auto-accounting for daylight savings (ds)
+# this will overcompensate if given local datetime, which is already ds-adjusted
 USE_TZ = True
 
 
@@ -119,7 +120,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# Note Django 2 syntax; 3 uses pathlib, not os STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_ROOT = BASE_DIR / 'static'
 
 MEDIA_ROOT = BASE_DIR / 'media'
