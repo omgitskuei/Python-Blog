@@ -13,7 +13,7 @@ saved in the database
 
 class Post(models.Model):
     '''
-    define the properties of each (blog) Post
+    Model properties
     https://docs.djangoproject.com/en/2.2/ref/models/fields/#field-types
     '''
     # link to another model
@@ -31,15 +31,40 @@ class Post(models.Model):
     Method publish
     Saves the model
     '''
-
     def publish(self):
         self.published_date = timezone.now()
         self.save()
 
     '''
     Method __str__
-    toString() the title of the Post
+    toString() meta-data of the Post
     '''
-
     def __str__(self):
-        return self.title
+        toString = self.title + ", by "+self.author+", created "+self.created_date+", published "+self.published_date
+        return toString
+        # return self.title
+
+
+class Comment(models.Model):
+    '''
+    Model properties
+    '''
+    post = models.ForeignKey('blog.Post', on_delete=models.CASCADE, related_name='comments')
+    author = models.CharField(max_length=200)
+    text = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
+    approved_comment = models.BooleanField(default=False)
+
+    '''
+    Method approve
+    '''
+    def approve(self):
+        self.approved_comment = True
+        self.save()
+
+    '''
+    Method __str__
+    toString() meta-data of the comments
+    '''
+    def __str__(self):
+        return self.text

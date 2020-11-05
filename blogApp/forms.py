@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Post
+from .models import Post, Comment
 
 '''
 If you need more information about Django forms,
@@ -18,3 +18,9 @@ class PostForm(forms.ModelForm):
         # eg. created_date should be automatically set
         # when we create a post so don't expose that
         fields = ('title', 'text',)
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('author', 'text',)
