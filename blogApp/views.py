@@ -6,11 +6,12 @@ from django.shortcuts import render
 from django.utils import timezone
 # The dot before models means current directory or current application.
 # Both views.py and models.py are in the same directory.
-from .models import Post
+from .models import Post, Comment
 from django.shortcuts import render, get_object_or_404
 from .forms import PostForm, CommentForm
 from django.shortcuts import redirect
 
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 '''
@@ -30,6 +31,8 @@ https://tutorial.djangogirls.org/en/django_views/
 /
 '''
 # homepage
+
+
 def post_list(request):
     allPostsWithPDate = Post.objects.filter(
         published_date__lte=timezone.now()).order_by('published_date')
@@ -39,6 +42,8 @@ def post_list(request):
 '''
 /post/new/
 '''
+
+
 def post_new(request):
     # In post_edit.html, our <form> definition had the variable method="POST"?
     # All the fields from the form are now in request.POST
@@ -66,6 +71,8 @@ def post_new(request):
 /post/<int:pk>/
 '''
 # view a single post
+
+
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'blog/post_detail.html', {'post': post})
@@ -75,6 +82,8 @@ def post_detail(request, pk):
 /post/<int:pk>/edit/
 '''
 # we pass an extra pk parameter from urls
+
+
 def post_edit(request, pk):
     # get the Post model we want to edit
     post = get_object_or_404(Post, pk=pk)
@@ -98,9 +107,12 @@ def post_edit(request, pk):
 /drafts/
 '''
 # display list of drafts (posts with no publish date)
+
+
 def post_draft_list(request):
     # query for unpublished posts, ordered by created_date
-    posts = Post.objects.filter(published_date__isnull=True).order_by('created_date')
+    posts = Post.objects.filter(
+        published_date__isnull=True).order_by('created_date')
     return render(request, 'blog/post_draft_list.html', {'posts': posts})
 
 
@@ -108,6 +120,8 @@ def post_draft_list(request):
 /post/<pk>/publish/
 '''
 # publish a draft
+
+
 def post_publish(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.publish()
@@ -118,6 +132,8 @@ def post_publish(request, pk):
 /post/<pk>/remove/
 '''
 # delete/remove a post
+
+
 def post_remove(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.delete()
@@ -128,6 +144,8 @@ def post_remove(request, pk):
 /post/<int:pk>/comment/
 '''
 # adds new comment to a post
+
+
 def add_comment_to_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
@@ -140,3 +158,29 @@ def add_comment_to_post(request, pk):
     else:
         form = CommentForm()
     return render(request, 'blog/add_comment_to_post.html', {'form': form})
+
+
+'''
+/comment/<int:pk>/approve/
+'''
+# approve comment as Admin
+
+
+@login_required
+def comment_approve(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    comment.approve()
+    return redirect('post_detail', pk=comment.post.pk)
+
+
+'''
+/comment/<int:pk>/remove/
+'''
+# delete comment as Admin
+
+
+@login_required
+def comment_remove(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    comment.delete()
+    return redirect('post_detail', pk=comment.post.pk)

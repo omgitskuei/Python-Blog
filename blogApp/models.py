@@ -31,6 +31,7 @@ class Post(models.Model):
     Method publish
     Saves the model
     '''
+
     def publish(self):
         self.published_date = timezone.now()
         self.save()
@@ -39,17 +40,28 @@ class Post(models.Model):
     Method __str__
     toString() meta-data of the Post
     '''
+
     def __str__(self):
-        toString = self.title + ", by "+self.author+", created "+self.created_date+", published "+self.published_date
+        toString = self.title + ", by " + self.author + ", created " + \
+            self.created_date + ", published " + self.published_date
         return toString
         # return self.title
+
+    '''
+    Method approved_comments
+    query comments with approved_comment=true
+    '''
+
+    def approved_comments(self):
+        return self.comments.filter(approved_comment=True)
 
 
 class Comment(models.Model):
     '''
     Model properties
     '''
-    post = models.ForeignKey('blog.Post', on_delete=models.CASCADE, related_name='comments')
+    post = models.ForeignKey(
+        'blogApp.Post', on_delete=models.CASCADE, related_name='comments')
     author = models.CharField(max_length=200)
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
@@ -58,6 +70,7 @@ class Comment(models.Model):
     '''
     Method approve
     '''
+
     def approve(self):
         self.approved_comment = True
         self.save()
@@ -66,5 +79,6 @@ class Comment(models.Model):
     Method __str__
     toString() meta-data of the comments
     '''
+
     def __str__(self):
         return self.text
