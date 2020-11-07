@@ -42,10 +42,10 @@ class Post(models.Model):
     '''
 
     def __str__(self):
-        toString = self.title + ", by " + self.author + ", created " + \
-            self.created_date + ", published " + self.published_date
-        return toString
-        # return self.title
+        # toString = self.title + ", by " + self.author + ", created " + \
+        #     self.created_date + ", published " + self.published_date
+        # return toString
+        return self.title
 
     '''
     Method approved_comments
